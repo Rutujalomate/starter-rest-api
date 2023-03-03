@@ -13,7 +13,7 @@ const blacklist=[]
 
 
 app.post("/signup",async(req,res)=>{
-   // const {name,email,password,age}=req.body
+    const {name,email,password,age}=req.body
 // const token=req.headers["token"]
 //     try{
 //         if(token){
@@ -39,7 +39,11 @@ app.post("/signup",async(req,res)=>{
    // let user=new User({name,email,password,age})
    // console.log('user2',user)
    // await user.save()
-  return  res.status(201).send('user created sucessfully')
+   let user=await User.create({
+    name,email,password,age
+})
+console.log("user",user)
+  return  res.status(201).send(user)
 
 })
 
