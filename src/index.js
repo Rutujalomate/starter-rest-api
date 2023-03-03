@@ -7,7 +7,7 @@ const express=require("express")
 const cors=require("cors")
 const app=express()
 
-const main=require("./src/config/db")
+const main=require("./config/db")
 //console.log(connect)
 app.use(express.json())
 app.use(cors())
@@ -16,11 +16,11 @@ app.use(cors())
 
 
 
-const userRoute=require("./src/features/user/user.router")
+const userRoute=require("./features/user/user.router")
 
 //const productRoute=require("./features/product/product.router")
 
-const cartRoute=require("./src/features/blog/blog.router")
+const cartRoute=require("./features/blog/blog.router")
 
 app.use("/users",userRoute)
 //app.use("/products",productRoute)
