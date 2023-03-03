@@ -14,38 +14,38 @@ const blacklist=[]
 
 app.post("/signup",async(req,res)=>{
     const {name,email,password,age}=req.body
-// const token=req.headers["token"]
-//     try{
-//         if(token){
-//         const decoded=jwt.decode(token)
-//         if(decoded){
-//             if(decoded.role=="admin"){
-//                 let user=new User({name,email,password,age,role:"writer"})
-//                 console.log('user1',user)
-//                 await user.save()
-//               return  res.send('writer created sucessfully')
+const token=req.headers["token"]
+    try{
+        if(token){
+        const decoded=jwt.decode(token)
+        if(decoded){
+            if(decoded.role=="admin"){
+                let user=new User({name,email,password,age,role:"writer"})
+                console.log('user1',user)
+                await user.save()
+              return  res.send('writer created sucessfully')
 
-//             }else{
-//                 res.status(403).send("you are not allowed to create writer")
-//             }
-//         }
+            }else{
+                res.status(403).send("you are not allowed to create writer")
+            }
+        }
 
-//     }
+    }
 
-//     }catch(e){
-//         res.send("Non admin side is try to create writer")
-//     }
+    }catch(e){
+        res.send("Non admin side is try to create writer")
+    }
     
    // let user=new User({name,email,password,age})
    // console.log('user2',user)
    // await user.save()
    try {
-    let user=new User({name,email,password,age})
-   // console.log('user2',user)
-    await user.save()
+    let user=await User.create({
+        name,email,password,age})
+    console.log("user",user)
       return  res.status(201).send(user)
    } catch (error) {
-    return res.send('error')
+    return res.send(error.message)
    }
    
 
