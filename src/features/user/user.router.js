@@ -39,12 +39,16 @@ app.post("/signup",async(req,res)=>{
    // let user=new User({name,email,password,age})
    // console.log('user2',user)
    // await user.save()
-  // let user=await User.create({
-   // name,email,password,age
-//})
-//console.log("user",user)
-  return  res.status(201).send(name,email,password,age
-    )
+   try {
+    let user=await User.create({
+        name,email,password,age})
+    console.log("user",user)
+      return  res.status(201).send(user
+        )
+   } catch (error) {
+    return res.send(error)
+   }
+   
 
 })
 
