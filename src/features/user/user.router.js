@@ -76,7 +76,7 @@ app.post("/login",async(req,res)=>{
        //console.log(user)
        if(user){
         if(user.password===password){
-            const token=jwt.sign({id:user._id,age:user.age,role:user.role},"Secreate123",
+            const token=jwt.sign({id:user._id,name:user.name,age:user.age,role:user.role},"Secreate123",
             {expiresIn:'12 day'}
             )
 
