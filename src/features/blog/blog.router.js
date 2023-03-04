@@ -72,7 +72,7 @@ app.post("/blogpost",async(req,res)=>{
         console.log('decoded',decoded.id);
         console.log('req.body',req.body.author);
 
-        if(decoded.role =="writer" && decoded.id==req.body.author){
+        if(decoded.role =="user" && decoded.id==req.body.author){
             let blog=await Blog.create(req.body)
     
   res.send(blog)
