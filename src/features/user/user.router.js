@@ -82,14 +82,14 @@ app.post("/login",async(req,res)=>{
 
             const refreshtoken=jwt.sign({},"Secreaterefresh123",
             {expiresIn:'13 days'})
-            res.send({massage:'login sucess',token,refreshtoken})
+            res.send({message:'Login Successfull',token,refreshtoken,user})
 
         }
         else{
-            res.status(404).send(` Athentication failed incorrect password`)
+            res.status(404).send({message:` Athentication failed incorrect password`})
         }
        }else{
-        res.status(404).send(`user with email ${email} not found`)
+        res.status(404).send({message:`user with email ${email} not found`})
 
        }
 

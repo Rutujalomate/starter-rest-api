@@ -78,7 +78,7 @@ app.post("/blogpost",async(req,res)=>{
   res.send(blog)
 }
     else{
-        return  res.status(403).send('not allowed to create blog')
+        return  res.status(403).send('You are not allowed to create blog')
     
 }        
 
