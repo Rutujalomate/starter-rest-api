@@ -70,9 +70,9 @@ app.post("/blogpost",async(req,res)=>{
         
         const decoded=jwt.decode(token)
         console.log('decoded',decoded.id);
-        console.log('req.body',req.body.author);
+        //console.log('req.body',req.body.author);
 
-        if(decoded.role =="user" && decoded.id==req.body.author){
+        if(decoded.role =="user"){
             let blog=await Blog.create(req.body)
     
   res.send(blog)
