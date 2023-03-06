@@ -63,6 +63,31 @@ res.send(blogs)
 }
 })
 
+
+app.get("/getall",async(req,res)=>{
+    //console.log("token",token)
+    //const id=req.headers.id
+    //console.log(id);
+  
+    const {limit=10,page=1}=req.query
+  
+      try{
+          let user=await User.find()
+  console.log(user);
+          if(user){
+      let blogs=await Blog.find({}).limit(limit).skip((page-1)*limit)
+  res.send(blogs)
+          }
+          else{
+              res.send("please signup")
+          }
+      
+  }catch(e){
+      res.send(e.message)
+  }
+  })
+
+
 app.post("/blogpost",async(req,res)=>{
    const token=req.headers["token"]
 
