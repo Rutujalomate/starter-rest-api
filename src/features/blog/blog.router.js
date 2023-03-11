@@ -43,7 +43,7 @@ const app=express.Router()
 app.get("/",async(req,res)=>{
   //console.log("token",token)
   const id=req.headers.id
-  console.log(id);
+  console.log('userid',id);
 
   const {limit=10,page=1}=req.query
 
@@ -51,7 +51,7 @@ app.get("/",async(req,res)=>{
         let user=await User.findById({"_id":id})
 console.log(user);
         if(user){
-    let blogs=await Blog.find({}).limit(limit).skip((page-1)*limit)
+    let blogs=await Blog.find({"author":id}).limit(limit).skip((page-1)*limit)
 res.send(blogs)
         }
         else{
@@ -69,13 +69,18 @@ app.get("/getall",async(req,res)=>{
     //const id=req.headers.id
     //console.log(id);
   
-    const {limit=10,page=1}=req.query
-  
+    const {limit=10,page=1,category, q}=req.query
+    let query = {};
+    if(q) {
+      query = {$text: {$search: q}};
+    }
+    if(category) query.category = category;
+   
       try{
           let user=await User.find()
   console.log(user);
           if(user){
-      let blogs=await Blog.find({}).limit(limit).skip((page-1)*limit)
+      let blogs=await Blog.find(query).limit(limit).skip((page-1)*limit)
   res.send(blogs)
           }
           else{
@@ -97,10 +102,10 @@ app.post("/blogpost",async(req,res)=>{
         console.log('decoded',decoded.id);
         //console.log('req.body',req.body.author);
 
-        if(decoded.role =="user"){
-            let blog=await Blog.create(req.body)
+        if(decoded.role =="user" && req.body.author==decoded.id){
+            let blog=await Blog.create({...req.body,userDetails:decoded})
     
-  res.send(blog)
+  res.send({blog,decoded})
 }
     else{
         return  res.status(403).send('You are not allowed to create blog')
@@ -148,7 +153,7 @@ app.get("/:id", async(req,res)=>{
           const decoded=jwt.decode(token)
           console.log(decoded);
   
-          if(decoded.role ==="writer" || decoded.role==="admin" ){
+          if(decoded.role ==="user" || decoded.role==="admin" ){
               let blog1=await Blog.findById({"_id":id});
               console.log("blog",blog1)
               if(decoded.id==blog1.author){
@@ -192,7 +197,7 @@ app.get("/:id", async(req,res)=>{
     
             
 
-    if(decoded.role ==="writer"  ){
+    if(decoded.role ==="user"  ){
         let blog1=await Blog.findById({"_id":id});
         console.log("blog",blog1)
         if(decoded.id==blog1.author){

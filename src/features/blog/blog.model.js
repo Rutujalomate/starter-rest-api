@@ -14,9 +14,14 @@ required:true
     },
     content:{type:String,required:true},
     image:{ type: String,
-        data: Buffer}
+        data: Buffer},
+      userDetails:{type:Object,       required:true
+      },
+    category:{type:String,       
+       enum:["newz","food","lifestyle","personal","photography","fashion","travel","general"],
+       default:"general",
 
-    
+    required:true}
      
     })
      const Blog=mongoose.model("blog",blogSchema)
