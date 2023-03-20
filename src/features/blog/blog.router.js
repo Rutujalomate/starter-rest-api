@@ -80,7 +80,8 @@ app.get("/getall",async(req,res)=>{
           let user=await User.find()
   console.log(user);
           if(user){
-      let blogs=await Blog.find(query).limit(limit).skip((page-1)*limit)
+      let blogs=await Blog.find(query).limit(limit).skip((page-1)*limit).populate("author")
+
   res.send(blogs)
           }
           else{
@@ -103,7 +104,7 @@ app.post("/blogpost",async(req,res)=>{
         //console.log('req.body',req.body.author);
 
         if(decoded.role =="user" && req.body.author==decoded.id){
-            let blog=await Blog.create({...req.body,userDetails:decoded})
+            let blog=await Blog.create({...req.body,name:decoded.name,create:decoded.iat})
     
   res.send({blog,decoded})
 }

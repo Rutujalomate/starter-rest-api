@@ -13,10 +13,11 @@ required:true
         required:true
     },
     content:{type:String,required:true},
+    name:{type:String,required:true},
+    create:{type:Number,required:true},
+
     image:{ type: String,
         data: Buffer},
-      userDetails:{type:Object,       required:true
-      },
     category:{type:String,       
        enum:["newz","food","lifestyle","personal","photography","fashion","travel","general"],
        default:"general",
